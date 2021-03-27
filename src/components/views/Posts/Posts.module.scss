@@ -1,0 +1,28 @@
+@import '../../../styles/settings.scss';
+
+.root {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  justify-content: space-between;
+  height: 250px;
+  width: 100%;
+
+}
+
+.post {
+ border: 2px solid black;
+ .postTitle{
+   border-bottom: solid 2px 
+   }
+
+ }
+ .postDescription {
+  text-align: center;
+  text-justify: inter-word;
+    height: 10%;
+    overflow-y: auto;
+    width: 100%;
+    word-wrap: break-word;
+}
