@@ -1,31 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Post} from '../Post/Post';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
-
-
 import styles from './Posts.module.scss';
 
-const Component = ({
+function Component ({
   className,
   children,
   title,
+  key,
   description,
   author,
   created,
   updated,
+ }) {
+
   
-}) => {
   return(
     <div className={clsx(className, styles.root)}>
-      <h3>component posts</h3>
       <h3 className={`${styles.postTitle} align-self-start`}>{title}</h3>
-      <p className={`${styles.postDescription}`}>{description}</p>
-      <p className={`align-self-end`}>by: {author}</p>
-      <p>Posted: {created.split('T')[0]}</p>
-      {updated ? <p>Last Edited: {updated.split('T')[0]} by: {author}</p> : null}
-     
       {children}
     </div>
   );
@@ -36,6 +29,7 @@ Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   id: PropTypes.node,
+  key:PropTypes.string,
   title: PropTypes.node,
   description: PropTypes.node,
   author: PropTypes.node,

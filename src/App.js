@@ -13,6 +13,9 @@ import { Post } from './components/views/Post/Post';
 import { PostEdit } from './components/views/PostEdit/PostEdit';
 import { PostAdd } from './components/views/PostAdd/PostAdd';
 import { NotFound } from './components/views/NotFound/NotFound';
+import { Auth0Provider } from '@auth0/auth0-react';
+const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
 
 const theme = createMuiTheme({
   palette: {
@@ -20,9 +23,14 @@ const theme = createMuiTheme({
   },
 });
 
+
 const App = () => (
-  <Provider store={store}>
+   <Provider store={store}>
     <BrowserRouter>
+    <Auth0Provider
+        domain={domain}
+        clientId={clientId}
+        redirectUri={window.location.origin}>
       <StylesProvider injectFirst>
         <ThemeProvider theme={theme}>
           <CssBaseline />
@@ -37,8 +45,9 @@ const App = () => (
           </MainLayout>
         </ThemeProvider>
       </StylesProvider>
+      </Auth0Provider>
     </BrowserRouter>
   </Provider>
-);
+  );
 
 export { App };

@@ -3,23 +3,25 @@ import { API_URL } from '../configuration.js';
 /* selectors */
 export const getAll = ({posts}) => posts.data;
 
-
-
 /*export const getAllPublished = ({posts}) => { 
   //convertujemy object do array, bo filter działa tylko dla array
   const arr = Object.values(posts.data);
   arr.filter(item => item.status === 'published');
  
 }*/
-export const getAllPublished = ({posts}) => posts.data.filter(item => item.status == 'published');
+//export const getAllPublished = ({posts}) => posts.data.filter(item => item.status == 'published');
+
+export const getAllPublished = ({posts}) => {
+  if (posts && posts.data && posts.data.length) {
+     return posts.data.filter(item => item.status === 'published')
+  } else {
+
+    return posts.data;
+  }
+};
+
 export const getPostById = ({posts}, postId) => posts.data;
 export const getActivePost = ({posts}) => posts.activePost;
-
-
-
-
-
-
 
 
 /* action name creator */
@@ -46,9 +48,7 @@ export const selectPost = payload => ({payload: payload, type: SELECT_POST });
 export const fetchPublished = () => {
   return (dispatch, getState) => {
       dispatch(fetchStarted());
-      const state = getState();
-      if(!state.posts.data.length) {
-    Axios
+      Axios
       .get(`${API_URL}/posts`)
       .then(res => {
         dispatch(fetchSuccess(res.data));
@@ -56,8 +56,7 @@ export const fetchPublished = () => {
       .catch(err => {
         dispatch(fetchError(err.message || true));
       });
-    }
-  };
+  }
 };
 
 /* wyszukiwanie post id w bazie*/
@@ -149,8 +148,8 @@ export const reducer = (statePart = [], action = {}) => {
       };
     }
     case SELECT_POST: {
-      console.log('statePart select',statePart);
-      console.log('action.payload select',action.payload);
+      //console.log('statePart select',statePart);
+      //console.log('action.payload select',action.payload);
       return {
       
         ...statePart,
@@ -158,20 +157,20 @@ export const reducer = (statePart = [], action = {}) => {
       };
     }
     case UPDATE_POST: {
-      console.log(statePart);
-      console.log(action.payload);
+      //console.log(statePart);
+      //console.log(action.payload);
       return {
         ...statePart,
         activePost: action.payload,
         data: statePart.data.map(data => {
-          console.log(`2`, data);
+          //console.log(`2`, data);
 
           if (data.id === action.payload.id) {
             return {
               ...action.payload,
             };
           } else {
-            console.log(`3`, data);
+            //console.log(`3`, data);
             return data;
           }
         }),

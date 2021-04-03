@@ -6,12 +6,9 @@ import styles from './PostEdit.module.scss';
 import {PostForm} from '../../common/PostForm/PostForm';
 
 class Component extends React.Component {
- 
-
-  render(){
+   render(){
     const {className, children} = this.props;
-    
-    return(
+      return(
       
         <div className={clsx(className, styles.root)}>
          <PostForm postId={this.props.match.params.id} type={'Edit'} />

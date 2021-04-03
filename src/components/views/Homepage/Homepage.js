@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {PostBoard} from '../../features/PostBoard/PostBoard';
 import clsx from 'clsx';
-
 // import { connect } from 'react-redux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
-
 import styles from './Homepage.module.scss';
 
 class Component extends React.Component {
@@ -14,6 +12,7 @@ class Component extends React.Component {
     const {className, children} = this.props;
     return (
       <div className={clsx(className, styles.root)}>
+        <h2>Bulletin Board</h2>
         <PostBoard />
         {children}
       </div>

@@ -1,16 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import clsx from 'clsx';
-
-
 import { connect } from 'react-redux';
 import {addPostRequest, editPostRequest,getActivePost} from '../../../redux/postsRedux';
 import styles from './PostForm.module.scss';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 
 
 class Component extends React.Component {
@@ -42,17 +36,17 @@ class Component extends React.Component {
     if (!this.state.title || !this.state.description || ( type === `Add` ? !this.state.email : null)) {
       alert('Please fill all fields' );
       e.preventDefault();
-    } else if (this.state.title.length < 10) {
+    } else if (this.state.title.length < 3) {
       alert('Title is too short. Minimum 10 characters.' );
       e.preventDefault();
     } else if (this.state.title.length > 20) {
       alert('Title is too long. Maximum 20 characters.' );
       e.preventDefault();
-    }else if (this.state.description.length < 20) {
+    }else if (this.state.description.length < 10) {
       alert('Description is too short. Minimum 20 characters.' );
       e.preventDefault();
-    } else if (this.state.description.length > 1000) {
-      alert('Description is too long. Maximum 1000 characters.' );
+    } else if (this.state.description.length > 200) {
+      alert('Description is too long. Maximum 200 characters.' );
       e.preventDefault();
     } else{
       if (type === `Add`) {
@@ -73,10 +67,8 @@ class Component extends React.Component {
       else if (type === `Edit`) {
         console.log(`edit`);
         e.preventDefault();
-        //updatePost(this.state);
         updatePost(this.state);
-        // TODO when status of post is not selected again-> status is undefined
-        //this.setState({redirectToPost: true});
+
       }
     }
   }
@@ -94,7 +86,7 @@ class Component extends React.Component {
 
 
   handleChange(e){
-    const { loggedUser, type, activePost } = this.props;
+    const { activePost } = this.props;
     const target = e.target;
     console.log('e target', target);
     const value = target.value;
@@ -105,23 +97,18 @@ class Component extends React.Component {
     if(!this.state.status){
       this.setState({status: activePost.status});
     }
-    
-  
-    // console.log(activePost);
   }
 
   render(){
-    const {className, children, type, postId} = this.props;
-    console.log(`type`, type);
-    console.log(`postId`, postId);
-    console.log('edit ',this.state);
+    const {className, children, type} = this.props;
     return (
       <div className={clsx(className, styles.root)}>
            <Card className={styles.widthCard}>
         <form name="addPost" onSubmit={(e) => this.handleSubmit(e)} onChange={(e) => this.handleChange(e)}>
           <div className={`${styles.postAdd} d-flex flex-column align-items-center justify-content-between`}>
-           <p> <input className={`${styles.postAddTitle} align-self-start`} defaultValue={this.state.title} type="text" name='title' placeholder="Title"/></p>
-           <p><textarea rows="6" name='description' placeholder="Description" defaultValue={this.state.description}/></p>
+           {type==='Add' ? <p>Dodanie artykułu </p>: <p>Edytowanie artykułu </p>}
+           <p> <input className={`${styles.postAddTitle} align-self-start`} size="20" defaultValue={this.state.title} type="text" name='title' placeholder="Title"/></p>
+           <p><textarea className={`${styles.postAddTitle} align-self-start`} rows="6" cols="50" name='description' placeholder="Description" defaultValue={this.state.description}/></p>
             <div className={`row d-flex align-items-center justify-content-between`}>
            {type === `Add` ?  <p> <input type="email" name='email' placeholder="email" /> </p>  : <p>{this.state.author}</p>}
             <p>  <select name="status" defaultValue={this.state.status}>
